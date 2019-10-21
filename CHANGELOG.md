@@ -1,3 +1,7 @@
+## 1.0.6
+
+- add new command
+
 ## 1.0.5
 
 - Add Arg package as a dependency

@@ -6,9 +6,13 @@ main(List<String> arguments) {
   final argParser = ArgParser();
 
   argParser.addCommand("appname");
+  argParser.addCommand("log");
 
   ArgResults results = argParser.parse(arguments);
 
+  if (results.command.name == "log") {
+    print("log command wokerd");
+  }
   if (results.command.name == "appname" &&
       (results.command['appname'] != null ||
           (results.command['appname'] as String).isNotEmpty)) {
