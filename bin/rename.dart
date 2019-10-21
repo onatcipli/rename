@@ -5,17 +5,14 @@ import 'package:rename/rename.dart' as rename;
 main(List<String> arguments) {
   final argParser = ArgParser();
 
-  argParser.addCommand("appname");
-  argParser.addCommand("log");
+  argParser.addOption(
+    "appname",
+    abbr: "a",
+  );
 
   ArgResults results = argParser.parse(arguments);
 
-  if (results.command.name == "log") {
-    print("log command wokerd");
-  }
-  if (results.command.name == "appname" &&
-      (results.command['appname'] != null ||
-          (results.command['appname'] as String).isNotEmpty)) {
+  if (results.arguments.contains("--appname") && (results['appname'] != null)) {
     try {
       rename.changeAppName(results.command['appname']);
       print("App name changed succesfully to : ${results.command['appname']}");
@@ -25,5 +22,9 @@ main(List<String> arguments) {
     }
   } else {
     print("Command couldn't finded");
+
+    print("try to run : ``rename --appname yourappname``");
+    print("or :         ``pub global run rename --appname yourappname``");
+    print("******************");
   }
 }

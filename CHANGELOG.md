@@ -1,3 +1,7 @@
+## 1.0.7
+
+- fix for command (converted to option)
+
 ## 1.0.6
 
 - add new command
