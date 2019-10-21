@@ -1,6 +1,6 @@
 name: rename
 description: A sample command-line application that rename flutter application name.
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/onatcipli/rename.git
 author: Onat Cipli <ciplionat35@gmail.com>
 
