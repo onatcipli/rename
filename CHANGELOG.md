@@ -1,3 +1,7 @@
+## 1.0.5
+
+- Add Arg package as a dependency
+
 ## 1.0.4
 
 - ArgParser added
