@@ -1,3 +1,8 @@
+## 1.0.4
+
+- ArgParser added
+- `rename appname _yourappname_`
+
 ## 1.0.3
 
 - update executables
