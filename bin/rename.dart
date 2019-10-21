@@ -14,8 +14,8 @@ main(List<String> arguments) {
 
   if (results.arguments.contains("--appname") && (results['appname'] != null)) {
     try {
-      rename.changeAppName(results.command['appname']);
-      print("App name changed succesfully to : ${results.command['appname']}");
+      rename.changeAppName(results['appname']);
+      print("App name changed succesfully to : ${results['appname']}");
     } catch (e) {
       //TODO: Add filepath exception later.
       print(e);

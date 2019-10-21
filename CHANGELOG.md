@@ -1,3 +1,7 @@
+## 1.0.8
+
+- typo fix
+
 ## 1.0.7
 
 - fix for command (converted to option)
