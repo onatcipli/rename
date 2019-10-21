@@ -1,3 +1,8 @@
+## 1.0.9
+
+- README.MD update 
+- console prints improved
+
 ## 1.0.8
 
 - typo fix

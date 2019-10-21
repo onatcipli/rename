@@ -11,14 +11,14 @@ class FileRepository {
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("<key>CFBundleName</key>")) {
         contentLineByLine[i + 1] = "\t<string>${appName}</string>\r";
-        print(contentLineByLine[i + 1].toString());
+        break;
       }
     }
     File writtenFile = await writeFile(
       filePath: iosInfoPlistPath,
       content: contentLineByLine.join('\n'),
     );
-    print(await writtenFile.readAsString());
+    print("IOS appname changed successfully to : $appName");
     return writtenFile;
   }
 
@@ -29,14 +29,14 @@ class FileRepository {
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("android:label")) {
         contentLineByLine[i] = "        android:label=\"${appName}\"";
-        print(contentLineByLine[i].toString());
+        break;
       }
     }
     File writtenFile = await writeFile(
       filePath: androidManifestPath,
       content: contentLineByLine.join('\n'),
     );
-    print(await writtenFile.readAsString());
+    print("Android appname changed successfully to : $appName");
     return writtenFile;
   }
 
