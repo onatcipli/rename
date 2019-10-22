@@ -4,6 +4,30 @@ const androidManifestPath = ".\\android\\app\\src\\main\\AndroidManifest.xml";
 const iosInfoPlistPath = ".\\ios\\Runner\\Info.plist";
 
 class FileRepository {
+  // ignore: missing_return
+  Future<String> getCurrentIosAppName() async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: iosInfoPlistPath,
+    );
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains("<key>CFBundleName</key>")) {
+        return (contentLineByLine[i + 1] as String).trim().substring(5, 5);
+      }
+    }
+  }
+
+  // ignore: missing_return
+  Future<String> getCurrentAndroidAppName() async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: androidManifestPath,
+    );
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains("android:label")) {
+        return (contentLineByLine[i] as String).split('"')[1];
+      }
+    }
+  }
+
   Future<File> changeIosAppName(String appName) async {
     List contentLineByLine = await readFileAsLineByline(
       filePath: iosInfoPlistPath,
