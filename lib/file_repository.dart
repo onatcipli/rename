@@ -1,9 +1,17 @@
 import 'dart:io';
 
-const androidManifestPath = ".\\android\\app\\src\\main\\AndroidManifest.xml";
-const iosInfoPlistPath = ".\\ios\\Runner\\Info.plist";
-
 class FileRepository {
+  String androidManifestPath =
+      ".\\android\\app\\src\\main\\AndroidManifest.xml";
+  String iosInfoPlistPath = ".\\ios\\Runner\\Info.plist";
+
+  FileRepository() {
+    if (Platform.isMacOS || Platform.isLinux) {
+      androidManifestPath = "android/app/src/main/AndroidManifest.xml";
+      iosInfoPlistPath = "ios/Runner/Info.plist";
+    }
+  }
+
   // ignore: missing_return
   Future<String> getCurrentIosAppName() async {
     List contentLineByLine = await readFileAsLineByline(
