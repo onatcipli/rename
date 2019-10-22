@@ -4,9 +4,14 @@ import 'package:rename/file_repository.dart';
 ///
 FileRepository fileRepository = FileRepository();
 
-void changeAppName(String appName) async {
+Future changeAppName(String appName) async {
   await fileRepository.changeIosAppName(appName);
   await fileRepository.changeAndroidAppName(appName);
+}
+
+Future changeBundleId(String bundleId) async {
+  await fileRepository.changeIosBundleId(bundleId: bundleId);
+  await fileRepository.changeAndroidBundleId(bundleId: bundleId);
 }
 
 Future<String> getIosAppName() async {
