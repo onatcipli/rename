@@ -1,3 +1,7 @@
+## 1.1.3
+
+- fix
+
 ## 1.1.2
 
 - renaming bundleId added

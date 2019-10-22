@@ -52,7 +52,7 @@ class FileRepository {
       }
     }
     File writtenFile = await writeFile(
-      filePath: androidManifestPath,
+      filePath: androidAppBuildGradlePath,
       content: contentLineByLine.join('\n'),
     );
     print("Android bundleId changed successfully to : $bundleId");

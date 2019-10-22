@@ -23,7 +23,7 @@ main(List<String> arguments) async {
     } else if (results.arguments.contains("--bundleId") &&
         (results['bundleId'] != null)) {
       await rename.changeBundleId(results['bundleId']);
-      print("App name changed succesfully to : ${results['appname']}");
+      print("App name changed succesfully to : ${results['bundleId']}");
     } else {
       print("Command couldn't finded");
 
