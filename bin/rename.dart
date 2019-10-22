@@ -8,9 +8,14 @@ main(List<String> arguments) async {
     "appname",
     abbr: "a",
   );
+
   argParser.addOption(
     "bundleId",
     abbr: "b",
+  );
+  argParser.addOption(
+    "launcherIcon",
+    abbr: "l",
   );
 
   ArgResults results = argParser.parse(arguments);
@@ -24,6 +29,9 @@ main(List<String> arguments) async {
         (results['bundleId'] != null)) {
       await rename.changeBundleId(results['bundleId']);
       print("App name changed succesfully to : ${results['bundleId']}");
+    } else if (results.arguments.contains("--launcherIcon") &&
+        (results['launcherIcon'] != null)) {
+      await rename.changeLauncherIcon();
     } else {
       print("Command couldn't finded");
 

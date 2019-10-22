@@ -1,3 +1,7 @@
+## 1.1.5
+
+- changeLauncherIcon function added
+
 ## 1.1.4
 
 - fix for ios BundleId
