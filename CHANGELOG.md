@@ -1,3 +1,7 @@
+## 1.1.1
+
+- Fix for Linux and MacOs path 
+
 ## 1.1.0
 
 - README.MD update 
