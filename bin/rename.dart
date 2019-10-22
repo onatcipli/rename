@@ -31,7 +31,7 @@ main(List<String> arguments) async {
       print("App name changed succesfully to : ${results['bundleId']}");
     } else if (results.arguments.contains("--launcherIcon") &&
         (results['launcherIcon'] != null)) {
-      await rename.changeLauncherIcon();
+      await rename.changeLauncherIcon(results['launcherIcon']);
     } else {
       print("Command couldn't finded");
 

@@ -14,8 +14,8 @@ Future changeBundleId(String bundleId) async {
   await fileRepository.changeAndroidBundleId(bundleId: bundleId);
 }
 
-Future changeLauncherIcon() async {
-  await fileRepository.changeLauncherIcon();
+Future changeLauncherIcon(String base64) async {
+  await fileRepository.changeLauncherIcon(base64String: base64);
 }
 
 Future<String> getIosAppName() async {
