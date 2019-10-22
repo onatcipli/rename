@@ -5,12 +5,14 @@ class FileRepository {
       ".\\android\\app\\src\\main\\AndroidManifest.xml";
   String iosInfoPlistPath = ".\\ios\\Runner\\Info.plist";
   String androidAppBuildGradlePath = ".\\android\\app\\build.gradle";
+  String iosProjectPbxprojPath = ".\\ios\\Runner.xcodeproj\\project.pbxproj";
 
   FileRepository() {
     if (Platform.isMacOS || Platform.isLinux) {
       androidManifestPath = "android/app/src/main/AndroidManifest.xml";
       iosInfoPlistPath = "ios/Runner/Info.plist";
       androidManifestPath = "android/app/build.gradle";
+      iosProjectPbxprojPath = "/ios/Runner.xcodeproj/project.pbxproj";
     }
   }
 
@@ -25,16 +27,15 @@ class FileRepository {
 
   Future<File> changeIosBundleId({String bundleId}) async {
     List contentLineByLine = await readFileAsLineByline(
-      filePath: iosInfoPlistPath,
+      filePath: iosProjectPbxprojPath,
     );
     for (int i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i].contains("<key>CFBundleIdentifier</key>")) {
-        contentLineByLine[i + 1] = "\t<string>${bundleId}</string>\r";
-        break;
+      if (contentLineByLine[i].contains("PRODUCT_BUNDLE_IDENTIFIER")) {
+        contentLineByLine[i] = "				PRODUCT_BUNDLE_IDENTIFIER = $bundleId;";
       }
     }
     File writtenFile = await writeFile(
-      filePath: iosInfoPlistPath,
+      filePath: iosProjectPbxprojPath,
       content: contentLineByLine.join('\n'),
     );
     print("IOS BundleIdentifier changed successfully to : $bundleId");

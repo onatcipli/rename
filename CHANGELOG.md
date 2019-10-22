@@ -1,3 +1,7 @@
+## 1.1.4
+
+- fix for ios BundleId
+
 ## 1.1.3
 
 - fix
