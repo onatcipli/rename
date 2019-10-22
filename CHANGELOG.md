@@ -1,3 +1,7 @@
+## 1.1.2
+
+- renaming bundleId added
+
 ## 1.1.1
 
 - Fix for Linux and MacOs path 
