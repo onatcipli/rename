@@ -22,10 +22,16 @@ class FileRepository {
     }
   }
 
-  Future<File> changeLauncherIcon({Base64Codec base64codec}) {
+  Future<File> changeLauncherIcon({String base64String}) async {
     File file = File(launcherIconPath);
-    String encoded = file.readAsStringSync();
-    print(encoded);
+    if (base64String != null) {
+      List<int> _bytes = utf8.encode(base64String);
+      await file.writeAsBytes(_bytes);
+      return file;
+    }
+    List<int> bytes = await file.readAsBytes();
+    String encodedString = utf8.decode(bytes);
+    print(encodedString);
   }
 
   Future<List<String>> readFileAsLineByline({String filePath}) async {

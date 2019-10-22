@@ -1,3 +1,7 @@
+## 1.1.6
+
+- update
+
 ## 1.1.5
 
 - changeLauncherIcon function added
