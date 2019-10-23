@@ -1,3 +1,7 @@
+## 1.1.8
+
+- fix for AndroidManifest path
+
 ## 1.1.7
 
 - update

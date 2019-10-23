@@ -13,7 +13,7 @@ class FileRepository {
     if (Platform.isMacOS || Platform.isLinux) {
       androidManifestPath = "android/app/src/main/AndroidManifest.xml";
       iosInfoPlistPath = "ios/Runner/Info.plist";
-      androidManifestPath = "android/app/build.gradle";
+      androidAppBuildGradlePath = "android/app/build.gradle";
       iosProjectPbxprojPath = "ios/Runner.xcodeproj/project.pbxproj";
       launcherIconPath = "assets/images/launcherIcon.png";
     }
