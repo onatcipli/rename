@@ -14,13 +14,17 @@ const help = 'help';
 final argParser = ArgParser()
   ..addMultiOption(target, abbr: 't', allowed: [android, macOS, ios], help: 'Set which platforms to target.')
   ..addOption(appname, abbr: 'a', help: 'Sets the name of the app.')
-  ..addOption(bundleId, abbr: 'b', help: 'Set the bundle id.')
-  ..addOption(launcherIcon, abbr: 'l', help: 'Set the launcher.')
-  ..addFlag(help, abbr: 'h', help: 'Shows help.');
+  ..addOption(bundleId, abbr: 'b', help: 'Sets the bundle id.')
+  ..addOption(launcherIcon, abbr: 'l', help: 'Sets the launcher icon.')
+  ..addFlag(help, abbr: 'h', help: 'Shows help.', negatable: false);
 
 void main(List<String> arguments) async {
   try {
     final results = argParser.parse(arguments);
+    if (results[help] || results.arguments.isEmpty) {
+      print(argParser.usage);
+      return;
+    }
 
     final targets = results['target'];
     final platforms = <rename.Platform>{
@@ -37,9 +41,6 @@ void main(List<String> arguments) async {
     }
     if (results[launcherIcon] != null) {
       await rename.changeLauncherIcon(results[launcherIcon]);
-    }
-    if (results[help] || results.arguments.isEmpty) {
-      print(argParser.usage);
     }
   } on FormatException catch (e) {
     print(e.message);
