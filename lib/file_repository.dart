@@ -7,6 +7,7 @@ class FileRepository {
   String iosInfoPlistPath = ".\\ios\\Runner\\Info.plist";
   String androidAppBuildGradlePath = ".\\android\\app\\build.gradle";
   String iosProjectPbxprojPath = ".\\ios\\Runner.xcodeproj\\project.pbxproj";
+  String macosAppInfoxprojPath = ".\\macos\\Runner\\Configs\\AppInfo.xcconfig";
   String launcherIconPath = ".\\assets\\images\\launcherIcon.png";
 
   FileRepository() {
@@ -15,6 +16,7 @@ class FileRepository {
       iosInfoPlistPath = "ios/Runner/Info.plist";
       androidAppBuildGradlePath = "android/app/build.gradle";
       iosProjectPbxprojPath = "ios/Runner.xcodeproj/project.pbxproj";
+      macosAppInfoxprojPath = "macos/Runner/Configs/AppInfo.xcconfig";
       launcherIconPath = "assets/images/launcherIcon.png";
     }
   }
@@ -54,6 +56,23 @@ class FileRepository {
     return writtenFile;
   }
 
+  Future<File> changeMacOsBundleId({String bundleId}) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: macosAppInfoxprojPath,
+    );
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains("PRODUCT_BUNDLE_IDENTIFIER")) {
+        contentLineByLine[i] = "PRODUCT_BUNDLE_IDENTIFIER = $bundleId;";
+      }
+    }
+    File writtenFile = await writeFile(
+      filePath: macosAppInfoxprojPath,
+      content: contentLineByLine.join('\n'),
+    );
+    print("MacOS BundleIdentifier changed successfully to : $bundleId");
+    return writtenFile;
+  }
+
   Future<File> changeAndroidBundleId({String bundleId}) async {
     List contentLineByLine = await readFileAsLineByline(
       filePath: androidAppBuildGradlePath,
@@ -87,6 +106,24 @@ class FileRepository {
       content: contentLineByLine.join('\n'),
     );
     print("IOS appname changed successfully to : $appName");
+    return writtenFile;
+  }
+
+  Future<File> changeMacOsAppName(String appName) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: macosAppInfoxprojPath,
+    );
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains("PRODUCT_NAME")) {
+        contentLineByLine[i] = "PRODUCT_NAME = $appName;";
+        break;
+      }
+    }
+    File writtenFile = await writeFile(
+      filePath: macosAppInfoxprojPath,
+      content: contentLineByLine.join('\n'),
+    );
+    print("MacOS appname changed successfully to : $appName");
     return writtenFile;
   }
 

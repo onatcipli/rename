@@ -9,9 +9,19 @@ or
 
 pub global run rename --appname yourappname
 
+To target a specific platform use the "--target" option. e.g.
+
+pub global run rename --bundleId com.example.android.app --target android
+
 -----------------------------------------------
 
-pub global run rename --appname helloworld
+-t, --target          Set which platforms to target.
+                      [android, macOS, ios]
+
+-a, --appname         Sets the name of the app.
+-b, --bundleId        Sets the bundle id.
+-l, --launcherIcon    Sets the launcher icon.
+-h, --help            Shows help.
 ````
 
 

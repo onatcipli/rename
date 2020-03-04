@@ -1,47 +1,50 @@
 import 'package:args/args.dart';
 import 'package:rename/rename.dart' as rename;
 
-main(List<String> arguments) async {
-  final argParser = ArgParser();
+const android = 'android';
+const macOS = 'macOS';
+const ios = 'ios';
 
-  argParser.addOption(
-    "appname",
-    abbr: "a",
-  );
+const target = 'target';
+const appname = 'appname';
+const bundleId = 'bundleId';
+const launcherIcon = 'launcherIcon';
+const help = 'help';
 
-  argParser.addOption(
-    "bundleId",
-    abbr: "b",
-  );
-  argParser.addOption(
-    "launcherIcon",
-    abbr: "l",
-  );
+final argParser = ArgParser()
+  ..addMultiOption(target, abbr: 't', allowed: [android, macOS, ios], help: 'Set which platforms to target.')
+  ..addOption(appname, abbr: 'a', help: 'Sets the name of the app.')
+  ..addOption(bundleId, abbr: 'b', help: 'Sets the bundle id.')
+  ..addOption(launcherIcon, abbr: 'l', help: 'Sets the launcher icon.')
+  ..addFlag(help, abbr: 'h', help: 'Shows help.', negatable: false);
 
-  ArgResults results = argParser.parse(arguments);
-
+void main(List<String> arguments) async {
   try {
-    if (results.arguments.contains("--appname") &&
-        (results['appname'] != null)) {
-      await rename.changeAppName(results['appname']);
-      print("App name changed succesfully to : ${results['appname']}");
-    } else if (results.arguments.contains("--bundleId") &&
-        (results['bundleId'] != null)) {
-      await rename.changeBundleId(results['bundleId']);
-      print("App name changed succesfully to : ${results['bundleId']}");
-    } else if (results.arguments.contains("--launcherIcon") &&
-        (results['launcherIcon'] != null)) {
-      await rename.changeLauncherIcon(results['launcherIcon']);
-    } else {
-      print("Command couldn't finded");
-
-      print("try to run : ``rename --appname yourappname``");
-      print("try to run : ``rename --bundleId your.bundle.id``");
-      print("or :         ``pub global run rename --appname yourappname``");
-      print("or :         ``pub global run rename --bundleId your.bundle.id``");
-      print("******************");
+    final results = argParser.parse(arguments);
+    if (results[help] || results.arguments.isEmpty) {
+      print(argParser.usage);
+      return;
     }
-  } catch (e) {
-    print(e);
+
+    final targets = results['target'];
+    final platforms = <rename.Platform>{
+      if (targets.contains(macOS)) rename.Platform.macOS,
+      if (targets.contains(android)) rename.Platform.android,
+      if (targets.contains(ios)) rename.Platform.ios,
+    };
+
+    if (results[appname] != null) {
+      await rename.changeAppName(results[appname], platforms);
+    }
+    if (results[bundleId] != null) {
+      await rename.changeBundleId(results[bundleId], platforms);
+    }
+    if (results[launcherIcon] != null) {
+      await rename.changeLauncherIcon(results[launcherIcon]);
+    }
+  } on FormatException catch (e) {
+    print(e.message);
+    print('');
+    print(argParser.usage);
   }
 }

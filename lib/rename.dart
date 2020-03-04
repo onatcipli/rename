@@ -4,14 +4,34 @@ import 'package:rename/file_repository.dart';
 ///
 FileRepository fileRepository = FileRepository();
 
-Future changeAppName(String appName) async {
-  await fileRepository.changeIosAppName(appName);
-  await fileRepository.changeAndroidAppName(appName);
+enum Platform {
+  android,
+  ios,
+  macOS,
 }
 
-Future changeBundleId(String bundleId) async {
-  await fileRepository.changeIosBundleId(bundleId: bundleId);
-  await fileRepository.changeAndroidBundleId(bundleId: bundleId);
+Future changeAppName(String appName, Iterable<Platform> platforms) async {
+  if (platforms.isEmpty || platforms.contains(Platform.ios)) {
+    await fileRepository.changeIosAppName(appName);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.macOS)) {
+    await fileRepository.changeMacOsAppName(appName);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.android)) {
+    await fileRepository.changeAndroidAppName(appName);
+  }
+}
+
+Future changeBundleId(String bundleId, Iterable<Platform> platforms) async {
+  if (platforms.isEmpty || platforms.contains(Platform.ios)) {
+    await fileRepository.changeIosBundleId(bundleId: bundleId);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.macOS)) {
+    await fileRepository.changeMacOsBundleId(bundleId: bundleId);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.android)) {
+    await fileRepository.changeAndroidBundleId(bundleId: bundleId);
+  }
 }
 
 Future changeLauncherIcon(String base64) async {
