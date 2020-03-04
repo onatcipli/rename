@@ -1,3 +1,7 @@
+## 1.1.9
+
+- add macOS compat. add option to only target certain platforms by Alexander Wilde
+
 ## 1.1.8
 
 - fix for AndroidManifest path
