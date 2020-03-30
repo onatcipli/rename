@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:path/path.dart' as p;
 
 class FileRepository {
   String androidManifestPath =
@@ -9,6 +10,7 @@ class FileRepository {
   String iosProjectPbxprojPath = ".\\ios\\Runner.xcodeproj\\project.pbxproj";
   String macosAppInfoxprojPath = ".\\macos\\Runner\\Configs\\AppInfo.xcconfig";
   String launcherIconPath = ".\\assets\\images\\launcherIcon.png";
+  String pubspecPath = "pubspec.yaml";
 
   FileRepository() {
     if (Platform.isMacOS || Platform.isLinux) {
@@ -18,6 +20,7 @@ class FileRepository {
       iosProjectPbxprojPath = "ios/Runner.xcodeproj/project.pbxproj";
       macosAppInfoxprojPath = "macos/Runner/Configs/AppInfo.xcconfig";
       launcherIconPath = "assets/images/launcherIcon.png";
+      pubspecPath = "pubspec.yaml";
     }
   }
 
@@ -93,8 +96,10 @@ class FileRepository {
 
   Future<File> changeIosAppName(String appName) async {
     List contentLineByLine = await readFileAsLineByline(
-      filePath: iosInfoPlistPath,
-    );
+        filePath: p.join(
+      appName,
+      iosInfoPlistPath,
+    ));
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("<key>CFBundleName</key>")) {
         contentLineByLine[i + 1] = "\t<string>${appName}</string>\r";
@@ -102,7 +107,10 @@ class FileRepository {
       }
     }
     File writtenFile = await writeFile(
-      filePath: iosInfoPlistPath,
+      filePath: p.join(
+        appName,
+        iosInfoPlistPath,
+      ),
       content: contentLineByLine.join('\n'),
     );
     print("IOS appname changed successfully to : $appName");
@@ -111,8 +119,10 @@ class FileRepository {
 
   Future<File> changeMacOsAppName(String appName) async {
     List contentLineByLine = await readFileAsLineByline(
-      filePath: macosAppInfoxprojPath,
-    );
+        filePath: p.join(
+      appName,
+      macosAppInfoxprojPath,
+    ));
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("PRODUCT_NAME")) {
         contentLineByLine[i] = "PRODUCT_NAME = $appName;";
@@ -120,7 +130,10 @@ class FileRepository {
       }
     }
     File writtenFile = await writeFile(
-      filePath: macosAppInfoxprojPath,
+      filePath: p.join(
+        appName,
+        macosAppInfoxprojPath,
+      ),
       content: contentLineByLine.join('\n'),
     );
     print("MacOS appname changed successfully to : $appName");
@@ -129,7 +142,10 @@ class FileRepository {
 
   Future<File> changeAndroidAppName(String appName) async {
     List contentLineByLine = await readFileAsLineByline(
-      filePath: androidManifestPath,
+      filePath: p.join(
+        appName,
+        androidManifestPath,
+      ),
     );
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("android:label")) {
@@ -138,10 +154,52 @@ class FileRepository {
       }
     }
     File writtenFile = await writeFile(
-      filePath: androidManifestPath,
+      filePath: p.join(
+        appName,
+        androidManifestPath,
+      ),
       content: contentLineByLine.join('\n'),
     );
     print("Android appname changed successfully to : $appName");
+    return writtenFile;
+  }
+
+  Future<File> changePubSpecName(String appName) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: pubspecPath,
+    );
+    for (var i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains('name:')) {
+        contentLineByLine[i] = 'name: $appName';
+        break;
+      }
+    }
+    var writtenFile = await writeFile(
+      filePath: pubspecPath,
+      content: contentLineByLine.join('\n'),
+    );
+    print('Pubspec appname changed successfully to : $appName');
+    return writtenFile;
+  }
+
+  Future<File> changeImportName(
+      String appName, String filePath, String oldAppName) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: filePath,
+    );
+    var oldApp = oldAppName.trim();
+    var newApp = appName.trim();
+    for (var i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].indexOf(oldApp) > 0) {
+        contentLineByLine[i] =
+            contentLineByLine[i].replaceFirst(oldApp, '$newApp');
+      }
+    }
+    var writtenFile = await writeFile(
+      filePath: filePath,
+      content: contentLineByLine.join('\n'),
+    );
+    print('Import $oldApp changed successfully to : $newApp');
     return writtenFile;
   }
 
@@ -150,8 +208,8 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: iosInfoPlistPath,
     );
-    for (int i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i].contains("<key>CFBundleName</key>")) {
+    for (var i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains('<key>CFBundleName</key>')) {
         return (contentLineByLine[i + 1] as String).trim().substring(5, 5);
       }
     }
@@ -162,9 +220,22 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: androidManifestPath,
     );
-    for (int i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i].contains("android:label")) {
+    for (var i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains('android:label')) {
         return (contentLineByLine[i] as String).split('"')[1];
+      }
+    }
+  }
+
+  // ignore: missing_return
+  Future<String> getCurrentPubSpecName(String dirPath) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: p.join(dirPath, pubspecPath),
+    );
+
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains('name:')) {
+        return (contentLineByLine[i] as String).split(':')[1];
       }
     }
   }

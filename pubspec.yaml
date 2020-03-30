@@ -12,6 +12,7 @@ executables:
 
 dependencies:
   args: ^1.5.2
+  path: ^1.6.4
 
 dev_dependencies:
   pedantic: ^1.7.0
