@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:logger/logger.dart';
+
 class FileRepository {
+  Logger logger;
   String androidManifestPath =
       ".\\android\\app\\src\\main\\AndroidManifest.xml";
   String iosInfoPlistPath = ".\\ios\\Runner\\Info.plist";
@@ -11,6 +14,7 @@ class FileRepository {
   String launcherIconPath = ".\\assets\\images\\launcherIcon.png";
 
   FileRepository() {
+    logger = Logger(filter: ProductionFilter());
     if (Platform.isMacOS || Platform.isLinux) {
       androidManifestPath = "android/app/src/main/AndroidManifest.xml";
       iosInfoPlistPath = "ios/Runner/Info.plist";
@@ -31,8 +35,12 @@ class FileRepository {
   }
 
   Future<List<String>> readFileAsLineByline({String filePath}) async {
-    String fileAsString = await File(filePath).readAsString();
-    return fileAsString.split("\n");
+    try {
+      String fileAsString = await File(filePath).readAsString();
+      return fileAsString.split("\n");
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<File> writeFile({String filePath, String content}) {
@@ -43,6 +51,13 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: iosProjectPbxprojPath,
     );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Ios BundleId could not be changed because,
+      The related file could not be found in that path:  ${iosProjectPbxprojPath}
+      ''');
+      return null;
+    }
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("PRODUCT_BUNDLE_IDENTIFIER")) {
         contentLineByLine[i] = "				PRODUCT_BUNDLE_IDENTIFIER = $bundleId;";
@@ -52,7 +67,7 @@ class FileRepository {
       filePath: iosProjectPbxprojPath,
       content: contentLineByLine.join('\n'),
     );
-    print("IOS BundleIdentifier changed successfully to : $bundleId");
+    logger.i("IOS BundleIdentifier changed successfully to : $bundleId");
     return writtenFile;
   }
 
@@ -60,6 +75,13 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: macosAppInfoxprojPath,
     );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      macOS BundleId could not be changed because,
+      The related file could not be found in that path:  ${macosAppInfoxprojPath}
+      ''');
+      return null;
+    }
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("PRODUCT_BUNDLE_IDENTIFIER")) {
         contentLineByLine[i] = "PRODUCT_BUNDLE_IDENTIFIER = $bundleId;";
@@ -69,7 +91,7 @@ class FileRepository {
       filePath: macosAppInfoxprojPath,
       content: contentLineByLine.join('\n'),
     );
-    print("MacOS BundleIdentifier changed successfully to : $bundleId");
+    logger.i("MacOS BundleIdentifier changed successfully to : $bundleId");
     return writtenFile;
   }
 
@@ -77,6 +99,13 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: androidAppBuildGradlePath,
     );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Android BundleId could not be changed because,
+      The related file could not be found in that path:  ${androidAppBuildGradlePath}
+      ''');
+      return null;
+    }
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("applicationId")) {
         contentLineByLine[i] = "        applicationId \"${bundleId}\"";
@@ -87,7 +116,7 @@ class FileRepository {
       filePath: androidAppBuildGradlePath,
       content: contentLineByLine.join('\n'),
     );
-    print("Android bundleId changed successfully to : $bundleId");
+    logger.i("Android bundleId changed successfully to : $bundleId");
     return writtenFile;
   }
 
@@ -95,6 +124,13 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: iosInfoPlistPath,
     );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Ios AppName could not be changed because,
+      The related file could not be found in that path:  ${iosInfoPlistPath}
+      ''');
+      return null;
+    }
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("<key>CFBundleName</key>")) {
         contentLineByLine[i + 1] = "\t<string>${appName}</string>\r";
@@ -105,7 +141,7 @@ class FileRepository {
       filePath: iosInfoPlistPath,
       content: contentLineByLine.join('\n'),
     );
-    print("IOS appname changed successfully to : $appName");
+    logger.i("IOS appname changed successfully to : $appName");
     return writtenFile;
   }
 
@@ -113,6 +149,13 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: macosAppInfoxprojPath,
     );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      macOS AppName could not be changed because,
+      The related file could not be found in that path:  ${macosAppInfoxprojPath}
+      ''');
+      return null;
+    }
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("PRODUCT_NAME")) {
         contentLineByLine[i] = "PRODUCT_NAME = $appName;";
@@ -123,7 +166,7 @@ class FileRepository {
       filePath: macosAppInfoxprojPath,
       content: contentLineByLine.join('\n'),
     );
-    print("MacOS appname changed successfully to : $appName");
+    logger.i("MacOS appname changed successfully to : $appName");
     return writtenFile;
   }
 
@@ -131,6 +174,13 @@ class FileRepository {
     List contentLineByLine = await readFileAsLineByline(
       filePath: androidManifestPath,
     );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Android AppName could not be changed because,
+      The related file could not be found in that path:  ${androidManifestPath}
+      ''');
+      return null;
+    }
     for (int i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains("android:label")) {
         contentLineByLine[i] = "        android:label=\"${appName}\"";
@@ -141,7 +191,7 @@ class FileRepository {
       filePath: androidManifestPath,
       content: contentLineByLine.join('\n'),
     );
-    print("Android appname changed successfully to : $appName");
+    logger.i("Android appname changed successfully to : $appName");
     return writtenFile;
   }
 
@@ -167,5 +217,9 @@ class FileRepository {
         return (contentLineByLine[i] as String).split('"')[1];
       }
     }
+  }
+
+  bool checkFileExists(List fileContent) {
+    return fileContent == null || fileContent.isEmpty;
   }
 }

@@ -1,3 +1,9 @@
+## 1.2.0
+
+- (issue #4)fixing receiving FileSystemException for projects that does not have macOS folder.
+- logger added to show users more friendly logs.
+- README.md updated
+
 ## 1.1.9
 
 - add macOS compat. add option to only target certain platforms by Alexander Wilde
@@ -32,7 +38,7 @@
 
 ## 1.1.1
 
-- Fix for Linux and MacOs path 
+- Fix for Linux and macOS path 
 
 ## 1.1.0
 
