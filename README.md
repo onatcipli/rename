@@ -19,7 +19,8 @@ _**Run this command inside your flutter project root.**_
         pub global run rename --appname "Network Upp"
         
 
-##Custom Usage
+## Custom Usage
+
 if you want to run commands directly (without using `pub global run`) 
 ensure you [add system catche bin directory to your path](https://dart.dev/tools/pub/cmd/pub-global#running-a-script-from-your-path)
     
