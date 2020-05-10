@@ -9,7 +9,7 @@ You can change the bundleId and appName in following folders
 - Android
 - MacOS
 
-##Default Usage
+## Default Usage
 
 if you dont pass **-t or --target** parameter it will try to rename all available platform project folders inside flutter project.
 
