@@ -26,7 +26,7 @@ ensure you [add system catche bin directory to your path](https://dart.dev/tools
 
 or
 
-    pub global run rename --appname yourappname --target macOS
+        pub global run rename --appname yourappname --target macOS
 
 To target a specific platform use the "--target" option. e.g.
 
