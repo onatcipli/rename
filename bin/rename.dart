@@ -4,6 +4,7 @@ import 'package:rename/rename.dart' as rename;
 const android = 'android';
 const macOS = 'macOS';
 const ios = 'ios';
+const linux = 'linux';
 
 const target = 'target';
 const appname = 'appname';
@@ -12,7 +13,10 @@ const launcherIcon = 'launcherIcon';
 const help = 'help';
 
 final argParser = ArgParser()
-  ..addMultiOption(target, abbr: 't', allowed: [android, macOS, ios], help: 'Set which platforms to target.')
+  ..addMultiOption(target,
+      abbr: 't',
+      allowed: [android, macOS, ios, linux],
+      help: 'Set which platforms to target.')
   ..addOption(appname, abbr: 'a', help: 'Sets the name of the app.')
   ..addOption(bundleId, abbr: 'b', help: 'Sets the bundle id.')
   ..addOption(launcherIcon, abbr: 'l', help: 'Sets the launcher icon.')
@@ -31,6 +35,7 @@ void main(List<String> arguments) async {
       if (targets.contains(macOS)) rename.Platform.macOS,
       if (targets.contains(android)) rename.Platform.android,
       if (targets.contains(ios)) rename.Platform.ios,
+      if (targets.contains(linux)) rename.Platform.linux,
     };
 
     if (results[appname] != null) {

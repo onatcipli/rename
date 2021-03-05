@@ -12,6 +12,8 @@ class FileRepository {
   String iosProjectPbxprojPath = ".\\ios\\Runner.xcodeproj\\project.pbxproj";
   String macosAppInfoxprojPath = ".\\macos\\Runner\\Configs\\AppInfo.xcconfig";
   String launcherIconPath = ".\\assets\\images\\launcherIcon.png";
+  String linuxCMakeListsPath = ".\\linux\\CMakeLists.txt";
+  String linuxAppCppPath = ".\\linux\\my_application.cc";
 
   FileRepository() {
     logger = Logger(filter: ProductionFilter());
@@ -22,6 +24,8 @@ class FileRepository {
       iosProjectPbxprojPath = "ios/Runner.xcodeproj/project.pbxproj";
       macosAppInfoxprojPath = "macos/Runner/Configs/AppInfo.xcconfig";
       launcherIconPath = "assets/images/launcherIcon.png";
+      linuxCMakeListsPath = "linux/CMakeLists.txt";
+      linuxAppCppPath = "linux/my_application.cc";
     }
   }
 
@@ -120,6 +124,30 @@ class FileRepository {
     return writtenFile;
   }
 
+  Future<File> changeLinuxBundleId({String bundleId}) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: linuxCMakeListsPath,
+    );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Linux BundleId could not be changed because,
+      The related file could not be found in that path:  ${linuxCMakeListsPath}
+      ''');
+      return null;
+    }
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].contains("set(APPLICATION_ID")) {
+        contentLineByLine[i] = "set(APPLICATION_ID \"$bundleId\")";
+      }
+    }
+    File writtenFile = await writeFile(
+      filePath: linuxCMakeListsPath,
+      content: contentLineByLine.join('\n'),
+    );
+    logger.i("Linux BundleIdentifier changed successfully to : $bundleId");
+    return writtenFile;
+  }
+
   Future<File> changeIosAppName(String appName) async {
     List contentLineByLine = await readFileAsLineByline(
       filePath: iosInfoPlistPath,
@@ -192,6 +220,62 @@ class FileRepository {
       content: contentLineByLine.join('\n'),
     );
     logger.i("Android appname changed successfully to : $appName");
+    return writtenFile;
+  }
+
+  Future<bool> changeLinuxCppName(String appName, String oldAppName) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: linuxAppCppPath,
+    );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Linux AppName could not be changed because,
+      The related file could not be found in that path:  ${linuxAppCppPath}
+      ''');
+      return false;
+    }
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      contentLineByLine[i] =
+          contentLineByLine[i].replaceAll(oldAppName, appName);
+    }
+    File writtenFile = await writeFile(
+      filePath: linuxAppCppPath,
+      content: contentLineByLine.join('\n'),
+    );
+    return true;
+  }
+
+  Future<File> changeLinuxAppName(String appName) async {
+    List contentLineByLine = await readFileAsLineByline(
+      filePath: linuxCMakeListsPath,
+    );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Linux AppName could not be changed because,
+      The related file could not be found in that path:  ${linuxCMakeListsPath}
+      ''');
+      return null;
+    }
+    String oldAppName;
+    for (int i = 0; i < contentLineByLine.length; i++) {
+      if (contentLineByLine[i].startsWith("set(BINARY_NAME")) {
+        oldAppName = RegExp(r'set\(BINARY_NAME "(\w+)"\)')
+            .firstMatch(contentLineByLine[i])
+            ?.group(1);
+        contentLineByLine[i] = "set(BINARY_NAME \"$appName\")";
+        break;
+      }
+    }
+    File writtenFile = await writeFile(
+      filePath: linuxCMakeListsPath,
+      content: contentLineByLine.join('\n'),
+    );
+    if (oldAppName != null) {
+      if (await changeLinuxCppName(appName, oldAppName) == false) {
+        return null;
+      }
+    }
+    logger.i("Linux appname changed successfully to : $appName");
     return writtenFile;
   }
 
