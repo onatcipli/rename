@@ -8,6 +8,7 @@ You can change the bundleId and appName in following folders
 - IOS
 - Android
 - MacOS
+- Linux
 
 ## Default Usage
 
@@ -24,7 +25,7 @@ _**Run this command inside your flutter project root.**_
 if you want to run commands directly (without using `pub global run`) 
 ensure you [add system catche bin directory to your path](https://dart.dev/tools/pub/cmd/pub-global#running-a-script-from-your-path)
     
-    rename --appname yourappname -t ios
+        rename --appname yourappname -t ios
 
 or
 
@@ -38,12 +39,15 @@ To target a specific platform use the "--target" option. e.g.
 ## Parameters
 
         -t, --target          Set which platforms to target.
-                              [android, macOS, ios]
+                              [android, ios, macOS, linux]
         
         -a, --appname         Sets the name of the app.
         -b, --bundleId        Sets the bundle id.
-        -l, --launcherIcon    Sets the launcher icon.
+        -l, --launcherIcon    Sets the launcher icon. (deprecated currently)
         -h, --help            Shows help.
 
+## Next Comming
 
-
+* Getting the current app names and bundleIds
+* Changing launcherIcon fix
+* Null safety

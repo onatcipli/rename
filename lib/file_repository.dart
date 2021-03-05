@@ -29,6 +29,7 @@ class FileRepository {
     }
   }
 
+  @deprecated
   Future<File> changeLauncherIcon({String base64String}) async {
     File file = File(launcherIconPath);
     if (base64String != null) {
