@@ -1,10 +1,8 @@
-import 'package:logger/logger.dart';
 import 'package:rename/file_repository.dart';
 
 /// You should call this function in your flutter project root directory
 ///
-FileRepository fileRepository =
-    FileRepository(logger: Logger(filter: ProductionFilter()));
+FileRepository fileRepository = FileRepository();
 
 enum Platform {
   android,
@@ -40,10 +38,10 @@ Future changeLauncherIcon(String base64) async {
   await fileRepository.changeLauncherIcon(base64String: base64);
 }
 
-Future<String?> getIosAppName() async {
+Future<String> getIosAppName() async {
   return fileRepository.getCurrentIosAppName();
 }
 
-Future<String?> getAndroidAppName() async {
+Future<String> getAndroidAppName() async {
   return fileRepository.getCurrentAndroidAppName();
 }
