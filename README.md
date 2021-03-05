@@ -46,7 +46,7 @@ To target a specific platform use the "--target" option. e.g.
         -l, --launcherIcon    Sets the launcher icon. (deprecated currently)
         -h, --help            Shows help.
 
-## Next Comming
+## Next Coming
 
 * Getting the current app names and bundleIds
 * Changing launcherIcon fix
