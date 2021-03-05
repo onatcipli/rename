@@ -1,3 +1,8 @@
+## 1.3.0
+
+- linux support and some fixes
+- launcherIcon deprecated
+
 ## 1.2.0
 
 - (issue #4)fixing receiving FileSystemException for projects that does not have macOS folder.

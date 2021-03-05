@@ -7,6 +7,7 @@ FileRepository fileRepository = FileRepository();
 enum Platform {
   android,
   ios,
+  linux,
   macOS,
 }
 
@@ -20,6 +21,9 @@ Future changeAppName(String appName, Iterable<Platform> platforms) async {
   if (platforms.isEmpty || platforms.contains(Platform.android)) {
     await fileRepository.changeAndroidAppName(appName);
   }
+  if (platforms.isEmpty || platforms.contains(Platform.linux)) {
+    await fileRepository.changeLinuxAppName(appName);
+  }
 }
 
 Future changeBundleId(String bundleId, Iterable<Platform> platforms) async {
@@ -31,6 +35,9 @@ Future changeBundleId(String bundleId, Iterable<Platform> platforms) async {
   }
   if (platforms.isEmpty || platforms.contains(Platform.android)) {
     await fileRepository.changeAndroidBundleId(bundleId: bundleId);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.linux)) {
+    await fileRepository.changeLinuxBundleId(bundleId: bundleId);
   }
 }
 
