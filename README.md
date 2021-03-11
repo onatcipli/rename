@@ -10,6 +10,13 @@ You can change the bundleId and appName in following folders
 - MacOS
 - Linux
 
+## Installation
+
+```
+pub global activate rename
+```
+
+
 ## Default Usage
 
 if you dont pass **-t or --target** parameter it will try to rename all available platform project folders inside flutter project.
