@@ -10,6 +10,13 @@ You can change the bundleId and appName in following folders
 - MacOS
 - Linux
 
+## Installation
+
+```
+pub global activate rename
+```
+
+
 ## Default Usage
 
 if you dont pass **-t or --target** parameter it will try to rename all available platform project folders inside flutter project.
@@ -23,7 +30,7 @@ _**Run this command inside your flutter project root.**_
 ## Custom Usage
 
 if you want to run commands directly (without using `pub global run`) 
-ensure you [add system catche bin directory to your path](https://dart.dev/tools/pub/cmd/pub-global#running-a-script-from-your-path)
+ensure you [add system cache bin directory to your path](https://dart.dev/tools/pub/cmd/pub-global#running-a-script-from-your-path)
     
         rename --appname yourappname -t ios
 
