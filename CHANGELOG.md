@@ -1,3 +1,7 @@
+## 1.3.1
+
+- (issue #18) raise upper bound of dependencies
+
 ## 1.3.0
 
 - linux support and some fixes
