@@ -13,10 +13,7 @@ const launcherIcon = 'launcherIcon';
 const help = 'help';
 
 final argParser = ArgParser()
-  ..addMultiOption(target,
-      abbr: 't',
-      allowed: [android, macOS, ios, linux],
-      help: 'Set which platforms to target.')
+  ..addMultiOption(target, abbr: 't', allowed: [android, macOS, ios, linux], help: 'Set which platforms to target.')
   ..addOption(appname, abbr: 'a', help: 'Sets the name of the app.')
   ..addOption(bundleId, abbr: 'b', help: 'Sets the bundle id.')
   ..addOption(launcherIcon, abbr: 'l', help: 'Sets the launcher icon.')
