@@ -1,3 +1,7 @@
+## 2.0.0-dev.2
+
+- Readme info updates
+
 ## 2.0.0-dev.1
 
 - Upgraded to null-safety
