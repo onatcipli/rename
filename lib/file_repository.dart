@@ -392,10 +392,10 @@ class FileRepository {
       }
     }
     var writtenFile = await writeFile(
-      filePath: androidManifestPath,
+      filePath: windowsAppPath,
       content: contentLineByLine.join('\n'),
     );
-    logger.i('Android appname changed successfully to : $appName');
+    logger.i('Windows appname changed successfully to : $appName');
     return writtenFile;
   }
 
