@@ -5,6 +5,7 @@ const android = 'android';
 const macOS = 'macOS';
 const ios = 'ios';
 const linux = 'linux';
+const web = 'web';
 
 const target = 'target';
 const appname = 'appname';
@@ -13,10 +14,12 @@ const launcherIcon = 'launcherIcon';
 const help = 'help';
 
 final argParser = ArgParser()
-  ..addMultiOption(target, abbr: 't', allowed: [android, macOS, ios, linux], help: 'Set which platforms to target.')
+  ..addMultiOption(target,
+      abbr: 't',
+      allowed: [android, macOS, ios, linux, web],
+      help: 'Set which platforms to target.')
   ..addOption(appname, abbr: 'a', help: 'Sets the name of the app.')
   ..addOption(bundleId, abbr: 'b', help: 'Sets the bundle id.')
-  ..addOption(launcherIcon, abbr: 'l', help: 'Sets the launcher icon.')
   ..addFlag(help, abbr: 'h', help: 'Shows help.', negatable: false);
 
 void main(List<String> arguments) async {
@@ -33,6 +36,7 @@ void main(List<String> arguments) async {
       if (targets.contains(android)) rename.Platform.android,
       if (targets.contains(ios)) rename.Platform.ios,
       if (targets.contains(linux)) rename.Platform.linux,
+      if (targets.contains(web)) rename.Platform.web,
     };
 
     if (results[appname] != null) {
@@ -40,9 +44,6 @@ void main(List<String> arguments) async {
     }
     if (results[bundleId] != null) {
       await rename.changeBundleId(results[bundleId], platforms);
-    }
-    if (results[launcherIcon] != null) {
-      await rename.changeLauncherIcon(results[launcherIcon]);
     }
   } on FormatException catch (e) {
     print(e.message);

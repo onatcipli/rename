@@ -9,6 +9,8 @@ enum Platform {
   ios,
   linux,
   macOS,
+  windows,
+  web,
 }
 
 Future changeAppName(String? appName, Iterable<Platform> platforms) async {
@@ -23,6 +25,12 @@ Future changeAppName(String? appName, Iterable<Platform> platforms) async {
   }
   if (platforms.isEmpty || platforms.contains(Platform.linux)) {
     await fileRepository.changeLinuxAppName(appName);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.web)) {
+    await fileRepository.changeWebAppName(appName);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.windows)) {
+    await fileRepository.changeWindowsAppName(appName);
   }
 }
 
@@ -39,10 +47,6 @@ Future changeBundleId(String? bundleId, Iterable<Platform> platforms) async {
   if (platforms.isEmpty || platforms.contains(Platform.linux)) {
     await fileRepository.changeLinuxBundleId(bundleId: bundleId);
   }
-}
-
-Future changeLauncherIcon(String? base64) async {
-  await fileRepository.changeLauncherIcon(base64String: base64);
 }
 
 Future<String?> getIosAppName() async {

@@ -1,3 +1,11 @@
+## 2.0.0
+
+- Upgraded to null-safety
+- launcherIcon removed
+- get package name methods added
+- Web support added (only title change)
+
+
 ## 1.3.1
 
 - (issue #18) raise upper bound of dependencies
