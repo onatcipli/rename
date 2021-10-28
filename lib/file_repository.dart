@@ -279,7 +279,7 @@ class FileRepository {
     }
     for (var i = 0; i < contentLineByLine!.length; i++) {
       if (contentLineByLine[i].contains('android:label=')) {
-        contentLineByLine[i] = contentLineByLine[i] = contentLineByLine[i].toString().replaceFirst(
+        contentLineByLine[i] = contentLineByLine[i].toString().replaceFirst(
             RegExp(r'android:label="(.*?)"'), 'android:label="$appName"');
         break;
       }
