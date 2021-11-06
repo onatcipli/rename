@@ -9,9 +9,11 @@ enum Platform {
   ios,
   linux,
   macOS,
+  windows,
+  web,
 }
 
-Future changeAppName(String appName, Iterable<Platform> platforms) async {
+Future changeAppName(String? appName, Iterable<Platform> platforms) async {
   if (platforms.isEmpty || platforms.contains(Platform.ios)) {
     await fileRepository.changeIosAppName(appName);
   }
@@ -24,9 +26,15 @@ Future changeAppName(String appName, Iterable<Platform> platforms) async {
   if (platforms.isEmpty || platforms.contains(Platform.linux)) {
     await fileRepository.changeLinuxAppName(appName);
   }
+  if (platforms.isEmpty || platforms.contains(Platform.web)) {
+    await fileRepository.changeWebAppName(appName);
+  }
+  if (platforms.isEmpty || platforms.contains(Platform.windows)) {
+    await fileRepository.changeWindowsAppName(appName);
+  }
 }
 
-Future changeBundleId(String bundleId, Iterable<Platform> platforms) async {
+Future changeBundleId(String? bundleId, Iterable<Platform> platforms) async {
   if (platforms.isEmpty || platforms.contains(Platform.ios)) {
     await fileRepository.changeIosBundleId(bundleId: bundleId);
   }
@@ -41,14 +49,10 @@ Future changeBundleId(String bundleId, Iterable<Platform> platforms) async {
   }
 }
 
-Future changeLauncherIcon(String base64) async {
-  await fileRepository.changeLauncherIcon(base64String: base64);
-}
-
-Future<String> getIosAppName() async {
+Future<String?> getIosAppName() async {
   return fileRepository.getCurrentIosAppName();
 }
 
-Future<String> getAndroidAppName() async {
+Future<String?> getAndroidAppName() async {
   return fileRepository.getCurrentAndroidAppName();
 }

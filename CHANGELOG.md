@@ -1,3 +1,20 @@
+## 2.0.1
+
+- Making null-safety version as default
+- releasing pre-release
+
+## 2.0.0-dev.2
+
+- Readme info updates
+
+## 2.0.0-dev.1
+
+- Upgraded to null-safety
+- launcherIcon removed
+- get package name methods added
+- Web support added (only title change)
+
+
 ## 1.3.1
 
 - (issue #18) raise upper bound of dependencies
