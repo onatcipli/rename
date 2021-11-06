@@ -1,3 +1,8 @@
+## 2.0.1
+
+- Making null-safety version as default
+- releasing pre-release
+
 ## 2.0.0-dev.2
 
 - Readme info updates
