@@ -16,7 +16,7 @@ You can change the bundleId and appName in following folders
 ## Installation
 
 ```
-pub global activate rename
+dart pub global activate rename
 ```
 
 ## Default Usage
@@ -26,8 +26,8 @@ flutter project.
 
 _**Run this command inside your flutter project root.**_
 
-        pub global run rename --bundleId com.onatcipli.networkUpp
-        pub global run rename --appname "Network Upp"
+        dart pub global run rename --bundleId com.onatcipli.networkUpp
+        dart pub global run rename --appname "Network Upp"
 
 ## Custom Usage
 
@@ -39,11 +39,11 @@ you [add system cache bin directory to your path](https://dart.dev/tools/pub/cmd
 
 or
 
-        pub global run rename --appname yourappname --target macOS
+        dart pub global run rename --appname yourappname --target macOS
 
 To target a specific platform use the "--target" option. e.g.
 
-        pub global run rename --bundleId com.example.android.app --target android
+        dart pub global run rename --bundleId com.example.android.app --target android
 
 ## Parameters
 
