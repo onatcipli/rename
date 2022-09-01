@@ -164,6 +164,12 @@ class FileRepository {
         contentLineByLine[i] = '        applicationId \"$bundleId\"';
         break;
       }
+
+      if (contentLineByLine[i].contains('manifestPlaceholders')) {
+        contentLineByLine[i] =
+            '        manifestPlaceholders += [appAuthRedirectScheme: \"${bundleId?.toLowerCase()}\"]';
+        break;
+      }
     }
     var writtenFile = await writeFile(
       filePath: androidAppBuildGradlePath,
