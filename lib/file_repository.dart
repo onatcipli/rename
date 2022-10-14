@@ -395,7 +395,7 @@ class FileRepository {
       filePath: windowsAppPath,
       content: contentLineByLine.join('\n'),
     );
-    logger.i('Windows appname changed successfully to : $appName');
+    logger.i('Web appname changed successfully to : $appName');
     return writtenFile;
   }
 
