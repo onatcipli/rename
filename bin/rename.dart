@@ -6,6 +6,7 @@ const macOS = 'macOS';
 const ios = 'ios';
 const linux = 'linux';
 const web = 'web';
+const windows = 'windows';
 
 const target = 'target';
 const appname = 'appname';
@@ -16,7 +17,7 @@ const help = 'help';
 final argParser = ArgParser()
   ..addMultiOption(target,
       abbr: 't',
-      allowed: [android, macOS, ios, linux, web],
+      allowed: [android, macOS, ios, linux, web, windows],
       help: 'Set which platforms to target.')
   ..addOption(appname, abbr: 'a', help: 'Sets the name of the app.')
   ..addOption(bundleId, abbr: 'b', help: 'Sets the bundle id.')
@@ -37,6 +38,7 @@ void main(List<String> arguments) async {
       if (targets.contains(ios)) rename.Platform.ios,
       if (targets.contains(linux)) rename.Platform.linux,
       if (targets.contains(web)) rename.Platform.web,
+      if (targets.contains(windows)) rename.Platform.windows,
     };
 
     if (results[appname] != null) {

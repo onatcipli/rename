@@ -14,8 +14,9 @@ class FileRepository {
   String launcherIconPath = '.\\assets\\images\\launcherIcon.png';
   String linuxCMakeListsPath = '.\\linux\\CMakeLists.txt';
   String linuxAppCppPath = '.\\linux\\my_application.cc';
-  String webAppPath = '.\\linux\\my_application.cc';
-  String windowsAppPath = '.\\web\\index.html';
+  String webAppPath = '.\\web\\index.html';
+  String windowsAppPath = '.\\windows\\runner\\main.cpp';
+  String windowsAppRCPath = '.\\windows\\runner\\Runner.rc';
 
   FileRepository() {
     logger = Logger(filter: ProductionFilter());
@@ -28,7 +29,9 @@ class FileRepository {
       launcherIconPath = 'assets/images/launcherIcon.png';
       linuxCMakeListsPath = 'linux/CMakeLists.txt';
       linuxAppCppPath = 'linux/my_application.cc';
-      windowsAppPath = 'web/index.html';
+      webAppPath = 'web/index.html';
+      windowsAppPath = 'windows/runner/main.cpp';
+      windowsAppRCPath = 'windows/runner/Runner.rc';
     }
   }
 
@@ -375,12 +378,12 @@ class FileRepository {
 
   Future<File?> changeWebAppName(String? appName) async {
     List? contentLineByLine = await readFileAsLineByline(
-      filePath: windowsAppPath,
+      filePath: webAppPath,
     );
     if (checkFileExists(contentLineByLine)) {
       logger.w('''
-      Windows Appname could not be changed because,
-      The related file could not be found in that path:  $windowsAppPath
+      Web appname could not be changed because,
+      The related file could not be found in that path:  $webAppPath
       ''');
       return null;
     }
@@ -392,14 +395,70 @@ class FileRepository {
       }
     }
     var writtenFile = await writeFile(
-      filePath: windowsAppPath,
+      filePath: webAppPath,
       content: contentLineByLine.join('\n'),
     );
-    logger.i('Windows appname changed successfully to : $appName');
+    logger.i('Web appname changed successfully to : $appName');
     return writtenFile;
   }
 
   Future<String?> getWindowsAppName() async {}
 
-  Future<String?> changeWindowsAppName(String? appName) async {}
+  Future<void> changeWindowsAppName(String? appName) async {
+    await changeWindowsCppName(appName);
+    await changeWindowsRCName(appName);
+    logger.i('Windows appname changed successfully to : $appName');
+  }
+
+  Future<void> changeWindowsCppName(String? appName) async {
+    List? contentLineByLine = await readFileAsLineByline(
+      filePath: windowsAppPath,
+    );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Windows appname could not be changed because,
+      The related file could not be found in that path:  $windowsAppPath
+      ''');
+      return null;
+    }
+    for (var i = 0; i < contentLineByLine!.length; i++) {
+      if (contentLineByLine[i].contains('window.CreateAndShow')) {
+        contentLineByLine[i] =
+            contentLineByLine[i].replaceAllMapped(RegExp(r'CreateAndShow\(L"([^"]+")'), (match) { return 'CreateAndShow(L"$appName"'; });
+        break;
+      }
+    }
+    await writeFile(
+      filePath: windowsAppPath,
+      content: contentLineByLine.join('\n'),
+    );
+  }
+
+  Future<void> changeWindowsRCName(String? appName) async {
+    List? contentLineByLine = await readFileAsLineByline(
+      filePath: windowsAppRCPath,
+    );
+    if (checkFileExists(contentLineByLine)) {
+      logger.w('''
+      Windows appname could not be changed because,
+      The related file could not be found in that path:  $windowsAppRCPath
+      ''');
+      return null;
+    }
+    for (var i = 0; i < contentLineByLine!.length; i++) {
+      if (contentLineByLine[i].contains('VALUE "InternalName"')) {
+        contentLineByLine[i] = '            VALUE "InternalName", "$appName" "\\0"';
+      }
+      else if (contentLineByLine[i].contains('VALUE "FileDescription"')) {
+        contentLineByLine[i] = '            VALUE "FileDescription", "$appName" "\\0"';
+      }
+      else if (contentLineByLine[i].contains('VALUE "ProductName"')) {
+        contentLineByLine[i] = '            VALUE "ProductName", "$appName" "\\0"';
+      }
+    }
+    await writeFile(
+      filePath: windowsAppRCPath,
+      content: contentLineByLine.join('\n'),
+    );
+  }
 }
