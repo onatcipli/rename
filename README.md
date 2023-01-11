@@ -57,7 +57,7 @@ To target a specific platform use the "--target" option. e.g.
 ## Parameters
 
         -t, --target          Set which platforms to target.
-                              [android, ios, macOS, linux]
+                              [android, ios, web, windows, macOS, linux]
         
         -a, --appname         Sets the name of the app.
         -b, --bundleId        Sets the bundle id.
