@@ -1,3 +1,7 @@
+## 2.1.1
+
+- readme fix
+
 ## 2.1.0
 
 - Remaining PR merges
