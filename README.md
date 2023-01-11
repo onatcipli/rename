@@ -1,7 +1,7 @@
 ## About (Null-Safety)
 
 It helps you to change your flutter project's AppName and BundleId for different platforms, **currently only available
-for IOS, Android, macOS and Web**
+for IOS, Android, macOS, Windows and Web**
 
 ## Supported Platforms
 
@@ -12,6 +12,7 @@ You can change the bundleId and appName in following folders
 - MacOS
 - Linux
 - Web
+- Windows
 
 ## Installation
 
@@ -28,6 +29,14 @@ _**Run this command inside your flutter project root.**_
 
         flutter pub global run rename --bundleId com.onatcipli.networkUpp
         flutter pub global run rename --appname "Network Upp"
+
+
+
+        flutter pub global run rename --appname YourAppName --target ios
+        flutter pub global run rename --appname YourAppName --target android
+        flutter pub global run rename --appname YourAppName --target web
+        flutter pub global run rename --appname YourAppName --target macOS
+        flutter pub global run rename --appname YourAppName --target windows
 
 ## Custom Usage
 
@@ -58,5 +67,5 @@ To target a specific platform use the "--target" option. e.g.
 ## Next Coming
 
 * Getting the current app names and bundleIds
+* UI to be able to easily use
 * Changing launcherIcon fix
-* Null safety

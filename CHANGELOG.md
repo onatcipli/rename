@@ -1,3 +1,9 @@
+## 2.1.0
+
+- Remaining PR merges
+- fixed generic issues
+- Windows support added by TonyHoyle
+
 ## 2.0.1
 
 - Making null-safety version as default
