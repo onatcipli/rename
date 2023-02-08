@@ -427,6 +427,11 @@ class FileRepository {
             contentLineByLine[i].replaceAllMapped(RegExp(r'CreateAndShow\(L"([^"]+")'), (match) { return 'CreateAndShow(L"$appName"'; });
         break;
       }
+      else if (contentLineByLine[i].contains('window.Create')) {
+        contentLineByLine[i] =
+            contentLineByLine[i].replaceAllMapped(RegExp(r'Create\(L"([^"]+")'), (match) { return 'Create(L"$appName"'; });
+        break;
+      }
     }
     await writeFile(
       filePath: windowsAppPath,
