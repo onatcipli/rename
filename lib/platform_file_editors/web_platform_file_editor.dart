@@ -92,4 +92,3 @@ class WebPlatformFileEditor extends AbstractPlatformFileEditor {
     return "$platform doesn't have bundleIdentifier.";
   }
 }
-

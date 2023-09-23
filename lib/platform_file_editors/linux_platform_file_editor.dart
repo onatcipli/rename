@@ -119,4 +119,3 @@ class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
     return message;
   }
 }
-

@@ -74,4 +74,3 @@ class FileNotExistException extends CustomException {
           'Details: $details',
         );
 }
-

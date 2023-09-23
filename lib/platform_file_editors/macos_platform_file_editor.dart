@@ -111,4 +111,3 @@ class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
     return message;
   }
 }
-
