@@ -1,5 +1,11 @@
 # Rename CLI Tool
 
+![GitHub issues](https://img.shields.io/github/issues/onatcipli/rename)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/onatcipli/rename)
+![GitHub contributors](https://img.shields.io/github/contributors/onatcipli/rename)
+![GitHub](https://img.shields.io/github/license/onatcipli/rename)
+
+
 ## Warning
 
 - This package may not be compatible with a flavor setup.
