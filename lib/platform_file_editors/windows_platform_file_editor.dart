@@ -36,7 +36,11 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
       filePath: filePath,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i]?.contains('window.Create') ?? false) {
+      if (contentLineByLine[i]?.contains('window.CreateAndShow') ?? false) {
+        var match = RegExp(r'CreateAndShow\(L"(.*?)"')
+            .firstMatch(contentLineByLine[i]!);
+        return match?.group(1)?.trim();
+      } else if (contentLineByLine[i]?.contains('window.Create') ?? false) {
         var match =
             RegExp(r'Create\(L"(.*?)"').firstMatch(contentLineByLine[i]!);
         return match?.group(1)?.trim();
@@ -77,7 +81,13 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
       filePath: filePath,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i].contains('window.Create')) {
+      if (contentLineByLine[i].contains('window.CreateAndShow')) {
+        contentLineByLine[i] = contentLineByLine[i]
+            .replaceAllMapped(RegExp(r'CreateAndShow\(L"(.*?)"'), (match) {
+          return 'Create(L"$appName"';
+        });
+        break;
+      } else if (contentLineByLine[i].contains('window.Create')) {
         contentLineByLine[i] = contentLineByLine[i]
             .replaceAllMapped(RegExp(r'Create\(L"(.*?)"'), (match) {
           return 'Create(L"$appName"';
