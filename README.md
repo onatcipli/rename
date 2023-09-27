@@ -1,4 +1,4 @@
-# Rename CLI Tool
+# Rename CLI Tool v3
 
 ![GitHub issues](https://img.shields.io/github/issues/onatcipli/rename)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/onatcipli/rename)
