@@ -1,3 +1,36 @@
+All notable changes to the "Rename CLI Tool" project will be documented in this file.
+
+# 3.0.0
+
+### Added
+- Introduced `RenameCommandRunner` class which is responsible for running the rename command in the CLI tool, including several commands such as `SetAppNameCommand`, `SetBundleIdCommand`, `GetAppNameCommand`, and `GetBundleIdCommand`.
+- Support for Linux platform.
+- New command structure with `getAppName`, `getBundleId`, `setAppName`, and `setBundleId`.
+- `--targets` option to specify which platforms to target.
+- `--value` option for setting the value in `setAppName` and `setBundleId`.
+- Detailed `help` command for global options and individual commands.
+- Added warning section noting potential compatibility issues and changes in API.
+- Included detailed explanations and examples for each command in the Usage section.
+- Added section on Upcoming Features, detailing plans for a Desktop application, integration with other packages, and enabling default platforms for the current Flutter project.
+- Contributing section, License section, Author section, and Support section.
+- Links to the author's GitHub profile, interact package, and pub_updater package.
+
+### Changed
+- Significant updates to the `Rename` class to handle the rename command for all platform file editors, including a switch case to handle different commands such as `setAppName`, `getAppName`, `setBundleId`, and `getBundleId`.
+- Improved clarity and professionalism in the language used throughout the documentation.
+- Updated installation and usage instructions for better clarity and detail.
+- Updated About section with more detail.
+- Updated Supported Platforms section with additional platforms and clarifications.
+- Clearer instructions for custom usage.
+
+### Removed
+- Deprecated the `--launcherIcon` option and removed it from the Parameters section.
+
+### Other Changes
+- Updated the `pubspec.yaml` file to include new dependencies.
+- `AbstractPlatformFileEditor` class providing a blueprint for platform-specific file editors.
+- Minor updates to the `README.md` file for new instructions and usage examples.
+
 ## 2.1.1
 
 - readme fix

@@ -1,55 +1,34 @@
-import 'package:args/args.dart';
-import 'package:rename/rename.dart' as rename;
+/// File: rename.dart
+/// Project: rename
+/// Author: Onat Cipli
+/// Created Date: 24.09.2023
+/// Description: Entry point of the rename project for the command line.
 
-const android = 'android';
-const macOS = 'macOS';
-const ios = 'ios';
-const linux = 'linux';
-const web = 'web';
-const windows = 'windows';
+import 'dart:async';
+import 'dart:io';
 
-const target = 'target';
-const appname = 'appname';
-const bundleId = 'bundleId';
-const launcherIcon = 'launcherIcon';
-const help = 'help';
+import 'package:rename/commands/rename_command_runner.dart';
+import 'package:rename/custom_exceptions.dart';
+import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
 
-final argParser = ArgParser()
-  ..addMultiOption(target,
-      abbr: 't',
-      allowed: [android, macOS, ios, linux, web, windows],
-      help: 'Set which platforms to target.')
-  ..addOption(appname, abbr: 'a', help: 'Sets the name of the app.')
-  ..addOption(bundleId, abbr: 'b', help: 'Sets the bundle id.')
-  ..addFlag(help, abbr: 'h', help: 'Shows help.', negatable: false);
-
-void main(List<String> arguments) async {
+/// Entry point of the application.
+///
+/// This function is responsible for running the rename command with the provided arguments.
+/// It handles any custom exceptions that may occur during the execution of the command.
+/// In case of a custom exception, the exit code is set to 1.
+/// For any other exceptions, the exit code is set to 64 indicating a command line usage error.
+///
+/// Parameters:
+/// - `arguments`: List of command line arguments passed to the application.
+Future<void> main(List<String> arguments) async {
   try {
-    final results = argParser.parse(arguments);
-    if (results[help] || results.arguments.isEmpty) {
-      print(argParser.usage);
-      return;
-    }
-
-    final targets = results['target'];
-    final platforms = <rename.Platform>{
-      if (targets.contains(macOS)) rename.Platform.macOS,
-      if (targets.contains(android)) rename.Platform.android,
-      if (targets.contains(ios)) rename.Platform.ios,
-      if (targets.contains(linux)) rename.Platform.linux,
-      if (targets.contains(web)) rename.Platform.web,
-      if (targets.contains(windows)) rename.Platform.windows,
-    };
-
-    if (results[appname] != null) {
-      await rename.changeAppName(results[appname], platforms);
-    }
-    if (results[bundleId] != null) {
-      await rename.changeBundleId(results[bundleId], platforms);
-    }
-  } on FormatException catch (e) {
-    print(e.message);
-    print('');
-    print(argParser.usage);
+    final renameCommandRunner = RenameCommandRunner();
+    await renameCommandRunner.run(arguments);
+  } on CustomException catch (err) {
+    logger.e(err.toString());
+    exitCode = 1;
+  } catch (e) {
+    logger.e(e);
+    exitCode = 64; // command line usage error
   }
 }

@@ -1,71 +1,175 @@
-## About (Null-Safety)
+# Rename CLI Tool
 
-It helps you to change your flutter project's AppName and BundleId for different platforms, **currently only available
-for IOS, Android, macOS, Windows and Web**
+![GitHub issues](https://img.shields.io/github/issues/onatcipli/rename)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/onatcipli/rename)
+![GitHub contributors](https://img.shields.io/github/contributors/onatcipli/rename)
+![GitHub](https://img.shields.io/github/license/onatcipli/rename)
 
-## Supported Platforms
 
-You can change the bundleId and appName in following folders
+## Warning
+
+- This package may not be compatible with a flavor setup.
+- The API has undergone significant changes; many elements have been deprecated. Please refer to the usage section for the updated functionalities.
+
+## About
+
+The Rename CLI Tool is a utility designed to modify your Flutter project's AppName and BundleId across various platforms. The supported platforms include:
 
 - IOS
 - Android
 - MacOS
 - Linux
-- Web
+- Web (only app name related functionality)
 - Windows
 
 ## Installation
 
-```
+To install the Rename CLI Tool, execute the following command:
+
+```sh
 flutter pub global activate rename
 ```
 
-## Default Usage
+### Running a Script
 
-if you dont pass **-t or --target** parameter it will try to rename all available platform project folders inside
-flutter project.
+You can [run a script directly](https://dart.dev/tools/pub/cmd/pub-global#running-a-script-from-your-path) using `rename` from the activated package through the command line. If facing any issues, alternate commands are `dart pub global run rename` or `flutter pub global run rename`. For path variable issues, refer to [ensuring your path variables are set up correctly](https://dart.dev/tools/pub/glossary#system-cache).
 
-_**Run this command inside your flutter project root.**_
+## Usage
 
-        flutter pub global run rename --bundleId com.onatcipli.networkUpp
-        flutter pub global run rename --appname "Network Upp"
+Please ensure you are in the Flutter project root directory before executing any commands. The tool supports various commands for retrieving and setting the AppName and BundleId:
 
+### Help
 
+Display general help or command-specific help using:
 
-        flutter pub global run rename --appname YourAppName --target ios
-        flutter pub global run rename --appname YourAppName --target android
-        flutter pub global run rename --appname YourAppName --target web
-        flutter pub global run rename --appname YourAppName --target macOS
-        flutter pub global run rename --appname YourAppName --target windows
+```sh
+rename help
+```
 
-## Custom Usage
+```plaintext
+A CLI tool that helps for renaming in Flutter projects.
 
-if you want to run commands directly (without using `pub global run`)
-ensure
-you [add system cache bin directory to your path](https://dart.dev/tools/pub/cmd/pub-global#running-a-script-from-your-path)
+Usage: rename <command> [arguments]
 
-        rename --appname yourappname -t ios
+Global options:
+-h, --help       Print this usage information.
+-v, --version    
 
-or
+Available commands:
+  getAppName    Get app names for the targeted platforms
+  getBundleId   Get bundleId identifiers for the targeted platforms
+  setAppName    Set app name for the targeted platforms
+  setBundleId   Set bundleId identifier for the targeted platforms
 
-        flutter pub global run rename --appname yourappname --target macOS
+Run "rename help <command>" for more information about a command.
+```
 
-To target a specific platform use the "--target" option. e.g.
+or for a specific command:
 
-        flutter pub global run rename --bundleId com.example.android.app --target android
+```sh
+rename help <commandName>
+```
+
+```plaintext
+Example output for 'rename help setAppName':
+Set app name for the targeted platforms
+
+Usage: rename setAppName [arguments]
+-h, --help                 Print this usage information.
+-t, --targets              Set which platforms to target.
+                           [ios (default), android (default), macos, linux, web, windows]
+-v, --value (mandatory)    Set value of the given command
+
+Run "rename help" to see global options.
+```
+
+### Get AppName
+
+To retrieve the current AppName for a specific platform:
+
+```sh
+rename getAppName --targets ios
+```
+
+```plaintext
+This will output the current AppName for the iOS platform.
+```
+
+or for multiple targets:
+
+```sh
+rename getAppName --targets ios,android,macos,windows,linux
+```
+
+### Set AppName
+
+To set the AppName for specific platforms:
+
+```sh
+rename setAppName --targets ios,android --value "YourAppName"
+```
+
+```plaintext
+This will set the AppName for the iOS and Android platforms to "YourAppName".
+```
+
+### Get/Set BundleId
+
+Similarly, use `getBundleId` and `setBundleId` to retrieve or set the BundleId for the specified platforms.
+
+```sh
+rename getBundleId --targets android
+```
+
+```plaintext
+This will output the current BundleId for the Android platform.
+```
+
+```sh
+rename setBundleId --targets android --value "com.example.bundleId"
+```
+
+```plaintext
+This will set the BundleId for the Android platform to "com.example.bundleId".
+```
 
 ## Parameters
 
-        -t, --target          Set which platforms to target.
-                              [android, ios, web, windows, macOS, linux]
-        
-        -a, --appname         Sets the name of the app.
-        -b, --bundleId        Sets the bundle id.
-        -l, --launcherIcon    Sets the launcher icon. (deprecated currently)
-        -h, --help            Shows help.
+### Commands
 
-## Next Coming
+- `setAppName`: Change the App Name for the given `--targets`. The `--value` option is required.
+- `setBundleId`: Change the bundle identifiers for the given `--targets`. The `--value` option is required.
+- `getAppName`: Display the app names for the given `--targets`.
+- `getBundleId`: Display the bundle identifiers for the given `--targets`.
 
-* Getting the current app names and bundleIds
-* UI to be able to easily use
-* Changing launcherIcon fix
+### Options
+
+- `-t, --targets`: Specify the target platforms. Options include `android`, `ios`, `web`, `windows`, `macos`, `linux`. This parameter is mandatory for all commands.
+- `-v, --value`: Set the value for the specified command. Mandatory for `setAppName` and `setBundleId`.
+- `-h, --help`: Display available instructions for the related command.
+
+## Upcoming Features
+
+- A Desktop application for easier usage.
+- Integration with the [interact package](https://pub.dev/packages/interact) and [pub_updater package](https://pub.dev/packages/pub_updater).
+- Enabling default platforms for the current Flutter project.
+
+## License
+
+This project is licensed under the MIT License. Refer to the LICENSE file for details.
+
+## Contributing
+
+Contributions are welcome! Please refer to our contributing guidelines to get started.
+
+## Changelog
+
+For all notable changes to this project, refer to the CHANGELOG.
+
+## Support
+
+For any issues or suggestions, please open an issue. Your feedback is highly appreciated.
+
+## Author
+
+This project is created and maintained by [Onat Çipli](https://github.com/onatcipli).
