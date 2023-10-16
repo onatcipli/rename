@@ -80,19 +80,22 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
     );
-    for (var i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i].contains('window.CreateAndShow')) {
-        contentLineByLine[i] = contentLineByLine[i]
-            .replaceAllMapped(RegExp(r'CreateAndShow\(L"(.*?)"'), (match) {
-          return 'Create(L"$appName"';
-        });
-        break;
-      } else if (contentLineByLine[i].contains('window.Create')) {
-        contentLineByLine[i] = contentLineByLine[i]
-            .replaceAllMapped(RegExp(r'Create\(L"(.*?)"'), (match) {
-          return 'Create(L"$appName"';
-        });
-        break;
+    var currentAppName = await getAppName();
+    if (currentAppName != null) {
+      for (var i = 0; i < contentLineByLine.length; i++) {
+        if (contentLineByLine[i]?.contains('window.CreateAndShow') ?? false) {
+          contentLineByLine[i] = contentLineByLine[i]?.replaceFirst(
+            currentAppName,
+            appName,
+          );
+          break;
+        } else if (contentLineByLine[i]?.contains('window.Create') ?? false) {
+          contentLineByLine[i] = contentLineByLine[i]?.replaceFirst(
+            currentAppName,
+            appName,
+          );
+          break;
+        }
       }
     }
     final message = await super.setAppName(appName: appName);
@@ -100,7 +103,7 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
       filePath: filePath,
       content: contentLineByLine.join('\n'),
     );
-    return message;
+    return 'App name set to $appName';
   }
 
   /// Sets the bundle ID in the Windows Runner.rc file.
