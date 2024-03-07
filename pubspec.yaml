@@ -1,6 +1,6 @@
 name: rename
 description: Helps you to change or rename your flutter project BundleId and AppName for Ios, Android, MacOS and Linux platforms
-version: 3.0.1
+version: 3.0.2
 homepage: https://github.com/onatcipli/rename.git
 
 environment:

@@ -1,5 +1,8 @@
 All notable changes to the "Rename CLI Tool" project will be documented in this file.
 
+# 3.0.2
+- Troubleshooting updated in readme
+
 # 3.0.1
 - Windows app rename fix typo and more stable renaming logic
 

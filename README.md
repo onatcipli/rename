@@ -173,3 +173,23 @@ For any issues or suggestions, please open an issue. Your feedback is highly app
 ## Author
 
 This project is created and maintained by [Onat Çipli](https://github.com/onatcipli).
+
+
+## Troubleshooting
+
+#### Command Not Working on Windows
+
+If you encounter issues running the `rename` command directly in Windows, especially from a non-administrator terminal, you might need to use an alternative command format. This issue can arise due to permission restrictions or path variable misconfigurations.
+
+Try executing the command using one of the following formats:
+
+- Using Flutter:
+  ```sh
+  flutter pub run rename <command> [arguments]
+  ```
+- Using Dart:
+  ```sh
+  dart run rename <command> [arguments]
+  ```
+
+These alternative commands explicitly invoke the `rename` tool through the Dart or Flutter toolchain, which can bypass some of the path or permission issues encountered in certain Windows configurations.
