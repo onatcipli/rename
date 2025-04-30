@@ -6,6 +6,7 @@
 
 import 'package:rename/enums.dart';
 import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
+import 'package:rename/utils/files.dart';
 
 /// [LinuxPlatformFileEditor] is a class that extends [AbstractPlatformFileEditor].
 /// It is responsible for editing Linux platform files.
@@ -14,10 +15,10 @@ import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
 /// - [linuxCMakeListsPath]: Represents the path to the Linux CMakeLists.txt file.
 /// - [linuxAppCppPath]: Represents the path to the Linux my_application.cc file.
 class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
-  String linuxCMakeListsPath = AbstractPlatformFileEditor.convertPath(
+  String linuxCMakeListsPath = convertPath(
     ['linux', 'CMakeLists.txt'],
   );
-  String linuxAppCppPath = AbstractPlatformFileEditor.convertPath(
+  String linuxAppCppPath = convertPath(
     ['linux', 'my_application.cc'],
   );
 
@@ -37,6 +38,7 @@ class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = linuxCMakeListsPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i]?.contains('set(BINARY_NAME') ?? false) {
@@ -56,6 +58,7 @@ class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = linuxAppCppPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i]?.contains('kFlutterWindowTitle') ?? false) {
@@ -78,6 +81,7 @@ class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = linuxCMakeListsPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('set(BINARY_NAME')) {
@@ -89,6 +93,7 @@ class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
     await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }
@@ -104,6 +109,7 @@ class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = linuxAppCppPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('kFlutterWindowTitle')) {
@@ -115,6 +121,7 @@ class LinuxPlatformFileEditor extends AbstractPlatformFileEditor {
     await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }

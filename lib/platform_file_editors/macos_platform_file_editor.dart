@@ -6,6 +6,7 @@
 
 import 'package:rename/enums.dart';
 import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
+import 'package:rename/utils/files.dart';
 
 /// [MacosPlatformFileEditor] is a class that extends [AbstractPlatformFileEditor].
 /// It is responsible for editing macOS platform files.
@@ -13,7 +14,7 @@ import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
 /// Attributes:
 /// - [macosAppInfoxprojPath]: Path to the macOS AppInfo.xcconfig file.
 class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
-  String macosAppInfoxprojPath = AbstractPlatformFileEditor.convertPath(
+  String macosAppInfoxprojPath = convertPath(
     ['macos', 'Runner', 'Configs', 'AppInfo.xcconfig'],
   );
 
@@ -33,6 +34,7 @@ class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = macosAppInfoxprojPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i]?.contains('PRODUCT_NAME') ?? false) {
@@ -50,6 +52,7 @@ class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = macosAppInfoxprojPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i]?.contains('PRODUCT_BUNDLE_IDENTIFIER') ??
@@ -71,6 +74,7 @@ class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = macosAppInfoxprojPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('PRODUCT_NAME')) {
@@ -82,6 +86,7 @@ class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
     await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }
@@ -97,6 +102,7 @@ class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = macosAppInfoxprojPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('PRODUCT_BUNDLE_IDENTIFIER')) {
@@ -107,6 +113,7 @@ class MacosPlatformFileEditor extends AbstractPlatformFileEditor {
     await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }
