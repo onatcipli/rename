@@ -8,16 +8,18 @@
 
 import 'package:rename/enums.dart';
 import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
+import 'package:rename/utils/files.dart';
 
 /// [IosPlatformFileEditor] is responsible for editing iOS platform files.
 /// Attributes:
 /// - [iosInfoPlistPath]: Path to the iOS Info.plist file.
 /// - [iosProjectPbxprojPath]: Path to the iOS project.pbxproj file.
 class IosPlatformFileEditor extends AbstractPlatformFileEditor {
-  String iosInfoPlistPath = AbstractPlatformFileEditor.convertPath(
+  static const _bundleIdentifierKey = 'PRODUCT_BUNDLE_IDENTIFIER';
+  String iosInfoPlistPath = convertPath(
     ['ios', 'Runner', 'Info.plist'],
   );
-  String iosProjectPbxprojPath = AbstractPlatformFileEditor.convertPath(
+  String iosProjectPbxprojPath = convertPath(
     ['ios', 'Runner.xcodeproj', 'project.pbxproj'],
   );
 
@@ -34,6 +36,7 @@ class IosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = iosInfoPlistPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i]?.contains('<key>CFBundleName</key>') ?? false) {
@@ -53,10 +56,13 @@ class IosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = iosProjectPbxprojPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i]?.contains('PRODUCT_BUNDLE_IDENTIFIER') ??
-          false) {
+      final line = contentLineByLine[i];
+      final hasBundleIdentifier =
+          line?.contains(IosPlatformFileEditor._bundleIdentifierKey) ?? false;
+      if (hasBundleIdentifier) {
         return (contentLineByLine[i] as String).split('=').last.trim();
       }
     }
@@ -74,6 +80,7 @@ class IosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = iosInfoPlistPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('<key>CFBundleName</key>')) {
@@ -93,6 +100,7 @@ class IosPlatformFileEditor extends AbstractPlatformFileEditor {
     var writtenFile = await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }
@@ -108,6 +116,7 @@ class IosPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = iosProjectPbxprojPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('PRODUCT_BUNDLE_IDENTIFIER')) {
@@ -118,6 +127,7 @@ class IosPlatformFileEditor extends AbstractPlatformFileEditor {
     var writtenFile = await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }

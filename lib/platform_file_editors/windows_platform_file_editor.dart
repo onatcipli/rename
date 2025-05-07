@@ -6,6 +6,7 @@
 
 import 'package:rename/enums.dart';
 import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
+import 'package:rename/utils/files.dart';
 
 /// [WindowsPlatformFileEditor] is a class responsible for editing Windows platform files.
 /// It extends the [AbstractPlatformFileEditor] class.
@@ -14,10 +15,10 @@ import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
 /// - `windowsAppPath`: Path to the Windows main.cpp file.
 /// - `windowsAppRCPath`: Path to the Windows Runner.rc file.
 class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
-  String windowsAppPath = AbstractPlatformFileEditor.convertPath(
+  String windowsAppPath = convertPath(
     ['windows', 'runner', 'main.cpp'],
   );
-  String windowsAppRCPath = AbstractPlatformFileEditor.convertPath(
+  String windowsAppRCPath = convertPath(
     ['windows', 'runner', 'Runner.rc'],
   );
 
@@ -34,15 +35,15 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = windowsAppPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i]?.contains('window.CreateAndShow') ?? false) {
-        var match = RegExp(r'CreateAndShow\(L"(.*?)"')
-            .firstMatch(contentLineByLine[i]!);
+      final line = contentLineByLine[i];
+      if (line?.contains('window.CreateAndShow') ?? false) {
+        var match = RegExp(r'CreateAndShow\(L"(.*?)"').firstMatch(line!);
         return match?.group(1)?.trim();
       } else if (contentLineByLine[i]?.contains('window.Create') ?? false) {
-        var match =
-            RegExp(r'Create\(L"(.*?)"').firstMatch(contentLineByLine[i]!);
+        var match = RegExp(r'Create\(L"(.*?)"').firstMatch(line!);
         return match?.group(1)?.trim();
       }
     }
@@ -57,11 +58,12 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = windowsAppRCPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i]?.contains('VALUE "InternalName"') ?? false) {
-        var match = RegExp(r'VALUE "InternalName", "(.*?)"')
-            .firstMatch(contentLineByLine[i]!);
+      final line = contentLineByLine[i];
+      if (line?.contains('VALUE "InternalName"') ?? false) {
+        var match = RegExp(r'VALUE "InternalName", "(.*?)"').firstMatch(line!);
         return match?.group(1)?.trim();
       }
     }
@@ -79,6 +81,7 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = windowsAppPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     var currentAppName = await getAppName();
     if (currentAppName != null) {
@@ -102,6 +105,7 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
     await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return 'App name set to $appName';
   }
@@ -117,6 +121,7 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = windowsAppRCPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('VALUE "InternalName"')) {
@@ -128,6 +133,7 @@ class WindowsPlatformFileEditor extends AbstractPlatformFileEditor {
     await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }

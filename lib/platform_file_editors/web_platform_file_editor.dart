@@ -8,6 +8,7 @@
 
 import 'package:rename/enums.dart';
 import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
+import 'package:rename/utils/files.dart';
 
 /// [WebPlatformFileEditor] is a class responsible for editing Web platform files.
 /// It extends the [AbstractPlatformFileEditor] class.
@@ -15,7 +16,7 @@ import 'package:rename/platform_file_editors/abs_platform_file_editor.dart';
 /// Attributes:
 /// - `webIndexPath`: Path to the Web index.html file.
 class WebPlatformFileEditor extends AbstractPlatformFileEditor {
-  String webIndexPath = AbstractPlatformFileEditor.convertPath(
+  String webIndexPath = convertPath(
     ['web', 'index.html'],
   );
 
@@ -35,11 +36,12 @@ class WebPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = webIndexPath;
     var contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
-      if (contentLineByLine[i]?.contains('<title>') ?? false) {
-        var match =
-            RegExp(r'<title>(.*?)</title>').firstMatch(contentLineByLine[i]!);
+      final line = contentLineByLine[i];
+      if (line?.contains('<title>') ?? false) {
+        var match = RegExp(r'<title>(.*?)</title>').firstMatch(line!);
         return match?.group(1)?.trim();
       }
     }
@@ -57,6 +59,7 @@ class WebPlatformFileEditor extends AbstractPlatformFileEditor {
     final filePath = webIndexPath;
     List? contentLineByLine = await readFileAsLineByline(
       filePath: filePath,
+      platform: platform,
     );
     for (var i = 0; i < contentLineByLine.length; i++) {
       if (contentLineByLine[i].contains('<title>') &&
@@ -69,6 +72,7 @@ class WebPlatformFileEditor extends AbstractPlatformFileEditor {
     var writtenFile = await writeFile(
       filePath: filePath,
       content: contentLineByLine.join('\n'),
+      platform: platform,
     );
     return message;
   }

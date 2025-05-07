@@ -1,5 +1,8 @@
 All notable changes to the "Rename CLI Tool" project will be documented in this file.
 
+# 3.1.0
+- Added support for the new `build.gradle.kts` *Kotlin DSL* format alongside the existing `build.gradle` *Groovy* configuration. The project now supports **both** formats, maintaining full backward compatibility with legacy build scripts.
+
 # 3.0.2
 - Troubleshooting updated in readme
 
